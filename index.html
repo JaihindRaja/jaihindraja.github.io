@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Jaihind Raja — Technical Product & Systems Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+<style>
+:root{
+  --bg:#0a0e1a;
+  --bg2:#0d1221;
+  --bg3:#111827;
+  --surface:#131c2e;
+  --surface2:#1a2540;
+  --border:#1e2d47;
+  --border2:#263554;
+  --sky:#38bdf8;
+  --sky-dim:rgba(56,189,248,0.1);
+  --sky-glow:rgba(56,189,248,0.25);
+  --green:#22c55e;
+  --green-dim:rgba(34,197,94,0.1);
+  --amber:#f59e0b;
+  --amber-dim:rgba(245,158,11,0.1);
+  --text:#e5e7eb;
+  --text2:#94a3b8;
+  --text3:#475569;
+  --font-display:'Outfit',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font-display);font-size:16px;
+  line-height:1.7;overflow-x:hidden;
+}
+::selection{background:var(--sky-dim);color:var(--sky)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* CANVAS */
+#particles-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;opacity:0.5;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 2rem;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,14,26,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:var(--font-mono);font-size:13px;
+  color:var(--sky);letter-spacing:0.05em;
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+  font-size:12px;color:var(--text2);text-decoration:none;
+  letter-spacing:0.05em;text-transform:uppercase;
+  transition:color .2s;font-family:var(--font-mono);
+}
+.nav-links a:hover{color:var(--sky)}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+section{padding:100px 0}
+
+/* ──── HERO ──── */
+.hero{
+  min-height:100vh;padding:80px 0 60px;
+  display:flex;align-items:center;position:relative;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 420px;
+  gap:60px;align-items:center;width:100%;
+  max-width:1100px;margin:0 auto;padding:0 2rem;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--green);letter-spacing:0.1em;
+  background:var(--green-dim);border:1px solid var(--green);
+  border-radius:4px;padding:5px 12px;margin-bottom:28px;
+}
+.hero-badge::before{content:'● ';animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.terminal-box{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:10px;padding:24px;margin-bottom:28px;
+  font-family:var(--font-mono);font-size:13px;
+  position:relative;overflow:hidden;
+}
+.terminal-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:1px;background:linear-gradient(90deg,transparent,var(--sky),transparent);
+}
+.terminal-header{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:18px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.t-dot{width:10px;height:10px;border-radius:50%}
+.t-title{font-size:11px;color:var(--text3);margin-left:4px}
+.t-line{line-height:1.9;color:var(--text2)}
+.t-prompt{color:var(--sky)}
+.t-cmd{color:var(--text)}
+.t-out-key{color:var(--amber)}
+.t-out-val{color:var(--green)}
+.t-cursor{
+  display:inline-block;width:8px;height:14px;
+  background:var(--sky);margin-left:2px;
+  animation:blink .8s step-end infinite;vertical-align:middle;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.hero-title{
+  font-size:clamp(44px,5.5vw,72px);font-weight:900;
+  line-height:1.0;letter-spacing:-0.03em;
+  margin-bottom:8px;
+}
+.hero-title .accent{color:var(--sky)}
+.hero-subtitle{
+  font-family:var(--font-mono);font-size:13px;
+  color:var(--sky);letter-spacing:0.04em;margin-bottom:20px;
+}
+.hero-desc{
+  font-size:15.5px;color:var(--text2);
+  line-height:1.8;max-width:500px;margin-bottom:36px;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-sky{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--sky);color:#0a0e1a;
+  font-family:var(--font-mono);font-size:12px;font-weight:700;
+  letter-spacing:0.04em;text-transform:uppercase;
+  padding:11px 22px;border-radius:6px;text-decoration:none;
+  transition:transform .15s,box-shadow .2s;
+  box-shadow:0 0 0 0 var(--sky-glow);
+}
+.btn-sky:hover{transform:translateY(-2px);box-shadow:0 0 24px var(--sky-glow)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--text);
+  font-family:var(--font-mono);font-size:12px;
+  letter-spacing:0.04em;text-transform:uppercase;
+  padding:11px 22px;border-radius:6px;text-decoration:none;
+  border:1px solid var(--border2);transition:border-color .2s,background .2s;
+}
+.btn-outline:hover{border-color:var(--sky);background:var(--sky-dim)}
+.btn-amber{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--amber);
+  font-family:var(--font-mono);font-size:12px;
+  letter-spacing:0.04em;text-transform:uppercase;
+  padding:11px 22px;border-radius:6px;text-decoration:none;
+  border:1px solid var(--amber);transition:border-color .2s,background .2s,color .2s;
+}
+.btn-amber:hover{background:var(--amber-dim);color:var(--amber)}
+
+/* Profile card */
+.profile-card{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:12px;padding:28px;
+  font-family:var(--font-mono);font-size:12.5px;
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.profile-card:hover{
+  transform:translateY(-4px) rotateX(2deg) rotateY(-2deg);
+  box-shadow:0 20px 60px rgba(56,189,248,0.12);
+}
+.profile-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,var(--sky),var(--green));
+}
+.pc-row{margin-bottom:8px;color:var(--text2)}
+.pc-key{color:var(--amber)}
+.pc-val{color:var(--green)}
+.pc-val-blue{color:var(--sky)}
+.pc-comment{color:var(--text3);font-style:italic}
+.skill-chip{
+  display:inline-block;
+  background:var(--sky-dim);border:1px solid rgba(56,189,248,0.3);
+  color:var(--sky);font-size:10px;letter-spacing:0.06em;
+  padding:3px 10px;border-radius:4px;margin:3px 3px 0 0;
+  transition:background .2s,box-shadow .2s;
+}
+.skill-chip:hover{
+  background:rgba(56,189,248,0.2);
+  box-shadow:0 0 12px var(--sky-glow);
+}
+
+/* ──── METRICS ──── */
+.metrics-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.metric-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:32px 24px;text-align:center;
+  position:relative;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.metric-card:hover{border-color:var(--sky);transform:translateY(-3px)}
+.metric-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,var(--sky),var(--green));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.metric-card:hover::after{transform:scaleX(1)}
+.metric-num{
+  font-family:var(--font-display);font-size:52px;font-weight:900;
+  line-height:1;color:var(--sky);
+}
+.metric-suffix{font-size:28px;color:var(--green)}
+.metric-label{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--text2);letter-spacing:0.08em;
+  text-transform:uppercase;margin-top:10px;
+}
+
+/* SECTION HEADERS */
+.sec-eyebrow{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--sky);letter-spacing:0.15em;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.sec-eyebrow::before{content:'// '}
+.sec-title{
+  font-size:clamp(28px,3.5vw,44px);font-weight:800;
+  line-height:1.1;letter-spacing:-0.02em;margin-bottom:48px;
+}
+
+/* ──── EXPERTISE ──── */
+.expertise-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;
+}
+.expertise-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:28px 22px;
+  transition:border-color .25s,transform .2s,box-shadow .25s;
+  cursor:default;
+}
+.expertise-card:hover{
+  border-color:var(--sky);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(56,189,248,0.08);
+}
+.exp-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--sky-dim);display:flex;
+  align-items:center;justify-content:center;
+  margin-bottom:16px;
+  transition:background .2s;
+}
+.expertise-card:hover .exp-icon{background:rgba(56,189,248,0.2)}
+.exp-title{
+  font-size:15px;font-weight:700;color:var(--text);
+  margin-bottom:8px;
+}
+.exp-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* ──── ACHIEVEMENTS ──── */
+.achievement-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:28px 22px;
+  display:flex;align-items:flex-start;gap:20px;
+  transition:border-color .25s,transform .2s,box-shadow .25s;
+  cursor:default;max-width:600px;
+}
+.achievement-card:hover{
+  border-color:var(--amber);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(245,158,11,0.08);
+}
+.ach-icon{
+  width:52px;height:52px;border-radius:10px;
+  background:var(--amber-dim);display:flex;
+  align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:background .2s;
+}
+.achievement-card:hover .ach-icon{background:rgba(245,158,11,0.2)}
+.ach-body{}
+.ach-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px}
+.ach-date{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--amber);letter-spacing:0.08em;
+  margin-bottom:10px;
+}
+.ach-desc{font-size:13px;color:var(--text2);line-height:1.65}
+
+/* ──── CERTIFICATIONS ──── */
+.cert-list{display:flex;flex-direction:column;gap:14px}
+.cert-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:22px 28px;
+  display:grid;grid-template-columns:1fr auto;
+  gap:24px;align-items:center;
+  transition:border-color .2s,transform .2s;
+}
+.cert-card:hover{border-color:var(--green);transform:translateX(4px)}
+.cert-name{
+  font-size:15px;font-weight:700;color:var(--text);
+  margin-bottom:4px;
+}
+.cert-issuer{font-size:13px;color:var(--text2)}
+.cert-date{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--green);letter-spacing:0.08em;
+  background:var(--green-dim);border:1px solid rgba(34,197,94,0.3);
+  padding:5px 12px;border-radius:4px;white-space:nowrap;
+  text-align:center;
+}
+
+/* ──── SYSTEM THINKING ──── */
+.sysThink-intro{
+  font-size:15px;color:var(--text2);line-height:1.8;
+  max-width:760px;margin-bottom:44px;
+  border-left:3px solid var(--sky);
+  padding-left:18px;
+}
+.sysThink-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.sysThink-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:28px 22px;
+  position:relative;overflow:hidden;
+  transition:border-color .25s,transform .2s,box-shadow .25s;
+  cursor:default;
+}
+.sysThink-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;background:linear-gradient(90deg,var(--sky),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.sysThink-card:hover{
+  border-color:var(--sky);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(56,189,248,0.08);
+}
+.sysThink-card:hover::before{transform:scaleX(1)}
+.st-step{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--text3);letter-spacing:0.12em;
+  margin-bottom:12px;
+}
+.st-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--sky-dim);display:flex;
+  align-items:center;justify-content:center;
+  margin-bottom:16px;
+  transition:background .2s;
+}
+.sysThink-card:hover .st-icon{background:rgba(56,189,248,0.2)}
+.st-title{
+  font-size:15px;font-weight:700;color:var(--text);
+  margin-bottom:8px;
+}
+.st-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* ──── SYSTEM DIAGRAM ──── */
+.diagram-wrapper{
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  max-width:400px;margin:0 auto;
+}
+.diagram-step{
+  display:flex;flex-direction:column;align-items:center;width:100%;
+}
+.d-node{
+  width:280px;padding:14px 24px;border-radius:8px;
+  text-align:center;border:1px solid var(--border2);
+  background:var(--surface);
+  font-family:var(--font-mono);font-size:13px;
+  transition:border-color .4s,background .4s,box-shadow .4s;
+  position:relative;cursor:pointer;
+}
+.d-node.active{
+  border-color:var(--sky);
+  background:var(--sky-dim);
+  box-shadow:0 0 24px rgba(56,189,248,0.2);
+  color:var(--sky);
+}
+.d-arrow{
+  width:2px;height:36px;background:var(--border2);
+  position:relative;transition:background .4s;
+}
+.d-arrow::after{
+  content:'';position:absolute;bottom:-6px;left:50%;
+  transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:var(--border2);
+  transition:border-top-color .4s;
+}
+.d-arrow.active{background:var(--sky)}
+.d-arrow.active::after{border-top-color:var(--sky)}
+
+.diagram-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;
+}
+.diagram-info h3{
+  font-size:20px;font-weight:700;color:var(--text);
+  margin-bottom:12px;
+}
+.diagram-info p{font-size:14px;color:var(--text2);line-height:1.7}
+.diagram-step-label{
+  margin-top:16px;padding:12px 16px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;font-size:13px;color:var(--text2);
+  border-left:3px solid var(--sky);
+}
+.diagram-step-label strong{color:var(--sky);display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;margin-bottom:4px}
+
+/* ──── CASE STUDIES — SPLIT PANEL ──── */
+.cases-split{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:0;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  min-height:420px;
+}
+.cases-nav{
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  padding:8px;
+  gap:2px;
+  background:var(--bg2);
+}
+.case-nav-item{
+  padding:14px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .15s, border-color .15s;
+  border:1px solid transparent;
+  position:relative;
+}
+.case-nav-item:hover{
+  background:var(--surface);
+}
+.case-nav-item.active{
+  background:var(--sky-dim);
+  border-color:rgba(56,189,248,0.25);
+}
+.case-nav-item.active .cnav-title{
+  color:var(--sky);
+}
+.case-nav-item.active::before{
+  content:'';
+  position:absolute;
+  left:0; top:50%;
+  transform:translateY(-50%);
+  width:3px; height:60%;
+  background:var(--sky);
+  border-radius:0 2px 2px 0;
+}
+.cnav-num{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--text3);
+  letter-spacing:0.08em;
+  margin-bottom:4px;
+}
+.cnav-title{
+  font-size:14px;
+  font-weight:600;
+  color:var(--text2);
+  line-height:1.4;
+  transition:color .15s;
+}
+.cases-detail{
+  padding:36px 32px;
+  position:relative;
+  overflow:hidden;
+}
+.case-detail-panel{
+  display:none;
+  opacity:0;
+}
+.case-detail-panel.active{
+  display:block;
+}
+.cdp-title{
+  font-size:20px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.cdp-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.cdp-item{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:16px;
+}
+.cdp-item-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--sky);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.cdp-item-text{
+  font-size:13px;
+  color:var(--text2);
+  line-height:1.65;
+}
+/* responsive */
+@media(max-width:720px){
+  .cases-split{
+    grid-template-columns:1fr;
+  }
+  .cases-nav{
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    flex-direction:row;
+    flex-wrap:wrap;
+    padding:8px;
+    gap:4px;
+  }
+  .case-nav-item{
+    flex:1;
+    min-width:140px;
+    padding:10px 12px;
+  }
+  .case-nav-item.active::before{
+    width:100%; height:2px;
+    top:auto; bottom:0; left:0;
+    transform:none;
+    border-radius:0;
+  }
+  .cdp-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* ──── PROJECTS ──── */
+.projects-list{display:flex;flex-direction:column;gap:16px}
+.project-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:28px 32px;
+  display:grid;grid-template-columns:1fr auto;
+  gap:32px;align-items:center;
+  transition:border-color .2s,transform .2s;
+}
+.project-card:hover{border-color:var(--sky);transform:translateX(4px)}
+.project-name{
+  font-size:18px;font-weight:700;color:var(--text);
+  margin-bottom:8px;
+}
+.project-desc{font-size:14px;color:var(--text2);line-height:1.7;max-width:560px}
+.project-flow{
+  display:flex;align-items:center;gap:8px;
+  flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;
+}
+.flow-node{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:4px;padding:5px 12px;
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--text2);white-space:nowrap;
+}
+.flow-arrow{color:var(--sky);font-family:var(--font-mono);font-size:12px}
+
+/* ──── TIMELINE ──── */
+.timeline{position:relative;padding-left:40px}
+.timeline::before{
+  content:'';position:absolute;left:10px;top:8px;bottom:8px;
+  width:2px;background:var(--border2);
+}
+.tl-item{
+  position:relative;margin-bottom:40px;
+}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{
+  position:absolute;left:-36px;top:4px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--sky-dim);border:2px solid var(--sky);
+  transition:background .3s,box-shadow .3s;
+}
+.tl-item.active .tl-dot{
+  background:var(--sky);
+  box-shadow:0 0 12px var(--sky-glow);
+}
+.tl-year{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--sky);letter-spacing:0.1em;margin-bottom:6px;
+}
+.tl-role{
+  font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;
+}
+.tl-desc{font-size:14px;color:var(--text2);line-height:1.7}
+
+/* ──── SKILLS ──── */
+.skills-cloud{
+  display:flex;flex-wrap:wrap;gap:10px;
+}
+.sk-chip{
+  font-family:var(--font-mono);font-size:12px;
+  padding:8px 18px;border-radius:6px;
+  border:1px solid var(--border2);color:var(--text2);
+  background:var(--surface);
+  transition:border-color .2s,color .2s,background .2s,box-shadow .2s;
+  cursor:default;
+}
+.sk-chip:hover{
+  border-color:var(--sky);color:var(--sky);
+  background:var(--sky-dim);
+  box-shadow:0 0 16px rgba(56,189,248,0.2);
+}
+.sk-chip.green:hover{
+  border-color:var(--green);color:var(--green);
+  background:var(--green-dim);
+  box-shadow:0 0 16px rgba(34,197,94,0.2);
+}
+.sk-chip.amber:hover{
+  border-color:var(--amber);color:var(--amber);
+  background:var(--amber-dim);
+  box-shadow:0 0 16px rgba(245,158,11,0.2);
+}
+
+/* ──── CONTACT ──── */
+.contact-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+}
+.contact-intro{font-size:16px;color:var(--text2);line-height:1.8;margin-bottom:28px}
+.contact-items{display:flex;flex-direction:column;gap:12px}
+.contact-item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:16px 20px;text-decoration:none;
+  transition:border-color .2s,background .2s,transform .15s;
+  color:var(--text);
+}
+.contact-item:hover{
+  border-color:var(--sky);background:var(--sky-dim);
+  transform:translateX(4px);
+}
+.ci-icon{
+  width:40px;height:40px;border-radius:8px;
+  background:var(--sky-dim);border:1px solid rgba(56,189,248,0.3);
+  color:var(--sky);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.ci-label{font-size:11px;color:var(--text3);font-family:var(--font-mono);letter-spacing:0.06em}
+.ci-val{font-size:14px;color:var(--text);font-family:var(--font-mono)}
+.avail-panel{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:32px;position:relative;overflow:hidden;
+}
+.avail-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:1px;background:linear-gradient(90deg,var(--sky),var(--green));
+}
+.avail-dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--green);margin-right:8px;
+  box-shadow:0 0 0 3px rgba(34,197,94,0.2);
+  animation:gpulse 2s infinite;
+}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,0.2)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0.05)}}
+.avail-status{
+  font-family:var(--font-mono);font-size:12px;
+  color:var(--green);margin-bottom:16px;
+  display:flex;align-items:center;
+}
+.avail-title{
+  font-size:20px;font-weight:700;color:var(--text);margin-bottom:10px;
+}
+.avail-desc{font-size:14px;color:var(--text2);line-height:1.7}
+.interest-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.itag{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;
+  padding:5px 12px;border-radius:4px;
+}
+.itag-sky{background:var(--sky-dim);color:var(--sky);border:1px solid rgba(56,189,248,0.3)}
+.itag-green{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,0.3)}
+.itag-amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,0.3)}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:24px 2rem;
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--text3);letter-spacing:0.04em;
+  display:flex;justify-content:space-between;align-items:center;
+  max-width:1100px;margin:0 auto;
+}
+
+/* DIVIDERS */
+.sec-divider{
+  border:none;border-top:1px solid var(--border);
+  margin:0;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .profile-card{display:none}
+  .cases-grid{grid-template-columns:1fr}
+  .contact-wrap{grid-template-columns:1fr;gap:32px}
+  .diagram-layout{grid-template-columns:1fr}
+  .project-card{grid-template-columns:1fr}
+  .project-flow{display:none}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .sysThink-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:540px){
+  .metrics-grid{grid-template-columns:1fr}
+  .expertise-grid{grid-template-columns:1fr 1fr}
+  .sysThink-grid{grid-template-columns:1fr}
+  nav .nav-links a{display:none}
+  nav .nav-links a:last-child{display:inline}
+  .cert-card{grid-template-columns:1fr;gap:10px}
+}
+
+/* REVEAL CLASSES */
+.reveal{opacity:0;transform:translateY(30px)}
+.reveal-left{opacity:0;transform:translateX(-30px)}
+.reveal-right{opacity:0;transform:translateX(30px)}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-logo">jaihind.raja</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#systems">Systems</a>
+    <a href="#cases">Cases</a>
+    <a href="#timeline">Journey</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">Available for Opportunities</div>
+
+      <div class="terminal-box" id="terminal">
+        <div class="terminal-header">
+          <div class="t-dot" style="background:#ef4444"></div>
+          <div class="t-dot" style="background:#f59e0b"></div>
+          <div class="t-dot" style="background:#22c55e"></div>
+          <span class="t-title">system.init</span>
+        </div>
+        <div id="terminal-lines"></div>
+      </div>
+
+      <h1 class="hero-title" id="hero-name">
+        Jaihind<br/><span class="accent">Raja</span>
+      </h1>
+      <p class="hero-subtitle">Technical Product · Systems &amp; Workflow Specialist</p>
+      <p class="hero-desc">I specialize in understanding complex logistics systems, debugging production issues, and improving product workflows by connecting engineering systems with real operational needs.</p>
+      <div class="hero-btns">
+        <a href="https://www.linkedin.com/in/jaihindrajas-5b63551a1/" target="_blank" class="btn-sky">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="mailto:jaihindrajas2001@gmail.com" class="btn-outline">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+          Get in Touch
+        </a>
+        <a href="https://drive.google.com/file/d/1eJjbMi-4QDMIpx4Z4XaDw2ZCZR9oVF8D/view?usp=share_link" target="_blank" class="btn-amber">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+      </div>
+    </div>
+
+    <div class="profile-card" id="profile-card">
+      <div class="terminal-header">
+        <div class="t-dot" style="background:#ef4444"></div>
+        <div class="t-dot" style="background:#f59e0b"></div>
+        <div class="t-dot" style="background:#22c55e"></div>
+        <span class="t-title">engineer.profile</span>
+      </div>
+      <div class="pc-row"><span class="pc-key">role</span>: <span class="pc-val">"Technical Product"</span></div>
+      <div class="pc-row"><span class="pc-key">focus</span>: <span class="pc-val">"Logistics Systems"</span></div>
+      <div class="pc-row"><span class="pc-key">exp</span>: <span class="pc-val-blue">4</span> <span class="pc-comment">// years</span></div>
+      <div class="pc-row"><span class="pc-key">location</span>: <span class="pc-val">"Bengaluru, IN"</span></div>
+      <div class="pc-row" style="margin-top:12px"><span class="pc-key">skills</span>: [</div>
+      <div style="padding-left:16px;margin-bottom:4px">
+        <span class="skill-chip">System Debugging</span>
+        <span class="skill-chip">Workflow Analysis</span>
+        <span class="skill-chip">Product Thinking</span>
+        <span class="skill-chip">API Debugging</span>
+        <span class="skill-chip">SQL</span>
+      </div>
+      <div class="pc-row">]</div>
+      <div class="pc-row" style="margin-top:8px"><span class="pc-key">status</span>: <span style="color:var(--green)">"open_to_work" ✓</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- METRICS -->
+<section id="about">
+  <div class="container">
+    <div class="sec-eyebrow reveal">By the Numbers</div>
+    <h2 class="sec-title reveal">What 4 Years Looks Like</h2>
+    <div class="metrics-grid">
+      <div class="metric-card reveal">
+        <div class="metric-num"><span class="count-up" data-target="4">0</span><span class="metric-suffix">+</span></div>
+        <div class="metric-label">Years in Logistics Tech</div>
+      </div>
+      <div class="metric-card reveal">
+        <div class="metric-num"><span class="count-up" data-target="50">0</span><span class="metric-suffix">+</span></div>
+        <div class="metric-label">Production Issues Investigated</div>
+      </div>
+      <div class="metric-card reveal">
+        <div class="metric-num"><span style="font-size:52px">∞</span></div>
+        <div class="metric-label">Production Issues Debugged</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Recognition</div>
+    <h2 class="sec-title reveal">Achievements</h2>
+    <div class="achievement-card reveal">
+      <div class="ach-icon">
+        <svg width="26" height="26" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="ach-body">
+        <div class="ach-title">Young Achiever Award</div>
+        <div class="ach-date">June 2022</div>
+        <div class="ach-desc">Received the Young Achiever Award for identifying critical system issues and contributing improvements across logistics workflows and production debugging. Recognized for going beyond the scope of a standard QA role to deliver meaningful platform impact.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Learning</div>
+    <h2 class="sec-title reveal">Certifications</h2>
+    <div class="cert-list">
+      <div class="cert-card reveal">
+        <div>
+          <div class="cert-name">Selenium with Python</div>
+          <div class="cert-issuer">Great Learning</div>
+        </div>
+        <div class="cert-date">Jan 2024</div>
+      </div>
+      <div class="cert-card reveal">
+        <div>
+          <div class="cert-name">Introduction to API Testing</div>
+          <div class="cert-issuer">Great Learning</div>
+        </div>
+        <div class="cert-date">Jan 2024</div>
+      </div>
+      <div class="cert-card reveal">
+        <div>
+          <div class="cert-name">Core Java &amp; Software Testing</div>
+          <div class="cert-issuer">Besant Technologies</div>
+        </div>
+        <div class="cert-date">Sep 2021</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Core Expertise</div>
+    <h2 class="sec-title reveal">What I Bring</h2>
+    <div class="expertise-grid">
+      <div class="expertise-card reveal">
+        <div class="exp-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="exp-title">System &amp; Product Thinking</div>
+        <div class="exp-desc">Workflow analysis, feature failure analysis, and product improvement identification across logistics platforms.</div>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="exp-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+        <div class="exp-title">Production Debugging</div>
+        <div class="exp-desc">Root cause analysis of production failures, integration issues, and system behavioral anomalies.</div>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="exp-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="exp-title">Workflow Analysis</div>
+        <div class="exp-desc">Deep understanding of logistics workflows — order lifecycle, routing, driver ops, and warehouse systems.</div>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="exp-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="exp-title">API &amp; SQL Investigation</div>
+        <div class="exp-desc">Debugging integrations, validating API behavior, and querying databases to investigate system state.</div>
+      </div>
+      <div class="expertise-card reveal">
+        <div class="exp-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="exp-title">Cross-team Coordination</div>
+        <div class="exp-desc">Bridging engineering, operations, and product teams — translating technical findings into actionable outcomes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- SYSTEM DIAGRAM -->
+<section id="systems">
+  <div class="container">
+    <div class="sec-eyebrow reveal">System Flow</div>
+    <h2 class="sec-title reveal">Logistics Order Lifecycle</h2>
+    <div class="diagram-layout">
+      <div class="diagram-wrapper" id="flow-diagram">
+        <div class="diagram-step">
+          <div class="d-node" data-step="0">📦 Order Workflow</div>
+          <div class="d-arrow" data-step="0"></div>
+        </div>
+        <div class="diagram-step">
+          <div class="d-node" data-step="1">⚙️ Order Management System</div>
+          <div class="d-arrow" data-step="1"></div>
+        </div>
+        <div class="diagram-step">
+          <div class="d-node" data-step="2">🗺️ Driver Allocation</div>
+          <div class="d-arrow" data-step="2"></div>
+        </div>
+        <div class="diagram-step">
+          <div class="d-node" data-step="3">📱 Driver App</div>
+          <div class="d-arrow" data-step="3"></div>
+        </div>
+        <div class="diagram-step">
+          <div class="d-node" data-step="4">🏭 Hub Processing</div>
+          <div class="d-arrow" data-step="4"></div>
+        </div>
+        <div class="diagram-step">
+          <div class="d-node" data-step="5">🚚 Delivery</div>
+        </div>
+      </div>
+      <div class="diagram-info">
+        <h3>Deep System Knowledge</h3>
+        <p>4+ years working across every layer of the logistics stack — from the moment an order is placed to final delivery. This isn't textbook knowledge — it's earned through debugging failures at each stage.</p>
+        <div id="step-info" class="diagram-step-label">
+          <strong>HOVER A STEP</strong>
+          Hover any node to explore what happens at that layer.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- SYSTEM THINKING -->
+<section id="system-thinking">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Methodology</div>
+    <h2 class="sec-title reveal">System Thinking</h2>
+    <p class="sysThink-intro reveal">Over the past few years working in logistics technology, I've learned that most production failures are not simple bugs — they are system behavior problems. My approach focuses on tracing problems across the full platform rather than investigating isolated components.</p>
+    <div class="sysThink-grid">
+
+      <div class="sysThink-card reveal">
+        <div class="st-step">STEP · 01</div>
+        <div class="st-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="st-title">Signal Detection</div>
+        <div class="st-desc">Identify anomalies through production alerts, driver reports, support tickets, or operational inconsistencies. The goal is to detect patterns rather than isolated bugs.</div>
+      </div>
+
+      <div class="sysThink-card reveal">
+        <div class="st-step">STEP · 02</div>
+        <div class="st-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="st-title">System Trace</div>
+        <div class="st-desc">Trace the full system path across APIs, databases, services, and external integrations to understand where the breakdown occurs.</div>
+      </div>
+
+      <div class="sysThink-card reveal">
+        <div class="st-step">STEP · 03</div>
+        <div class="st-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="st-title">Root Cause Analysis</div>
+        <div class="st-desc">Analyze logs, payloads, and system behavior to identify whether the issue originates from code logic, data inconsistencies, external integrations, or operational workflows.</div>
+      </div>
+
+      <div class="sysThink-card reveal">
+        <div class="st-step">STEP · 04</div>
+        <div class="st-icon">
+          <svg width="20" height="20" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="st-title">Solution Design</div>
+        <div class="st-desc">Propose improvements such as payload optimization, system safeguards, better monitoring, or workflow changes to prevent similar failures.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="container">
+    <div class="sec-eyebrow reveal">System Case Studies</div>
+    <h2 class="sec-title reveal">Real Problems. Real Thinking.</h2>
+
+    <div class="cases-split reveal">
+
+      <!-- LEFT: nav list -->
+      <div class="cases-nav">
+        <div class="case-nav-item active" onclick="selectCase(this, 0)">
+          <div class="cnav-num">CASE · 01</div>
+          <div class="cnav-title">Driver App Crash Investigation</div>
+        </div>
+        <div class="case-nav-item" onclick="selectCase(this, 1)">
+          <div class="cnav-num">CASE · 02</div>
+          <div class="cnav-title">Zone Routing Failure Analysis</div>
+        </div>
+        <div class="case-nav-item" onclick="selectCase(this, 2)">
+          <div class="cnav-num">CASE · 03</div>
+          <div class="cnav-title">Production Debugging &amp; Integration Issues</div>
+        </div>
+        <div class="case-nav-item" onclick="selectCase(this, 3)">
+          <div class="cnav-num">CASE · 04</div>
+          <div class="cnav-title">LLM Knowledge Retrieval Experiment</div>
+        </div>
+        <div class="case-nav-item" onclick="selectCase(this, 4)">
+          <div class="cnav-num">CASE · 05</div>
+          <div class="cnav-title">Address Book Integration Optimization</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: detail panels -->
+      <div class="cases-detail">
+
+        <div class="case-detail-panel active" id="case-panel-0">
+          <div class="cdp-title">Driver App Crash Investigation</div>
+          <div class="cdp-grid">
+            <div class="cdp-item">
+              <div class="cdp-item-label">Problem</div>
+              <div class="cdp-item-text">Driver app was crashing during bulk pickup assignment events in production, affecting delivery operations.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Investigation</div>
+              <div class="cdp-item-text">Traced crash timing against bulk assignment events. Found the order assignment logic was loading an oversized data payload in a single request.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Solution</div>
+              <div class="cdp-item-text">Recommended pagination and progressive loading for order assignment responses to reduce payload size per request.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Impact</div>
+              <div class="cdp-item-text">Identified root cause, reduced crash frequency, and improved driver app stability during high-assignment periods.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-detail-panel" id="case-panel-1">
+          <div class="cdp-title">Zone Routing Failure Analysis</div>
+          <div class="cdp-grid">
+            <div class="cdp-item">
+              <div class="cdp-item-label">Problem</div>
+              <div class="cdp-item-text">Zone routing feature was underperforming — deliveries weren't following zone assignments despite the feature being technically active.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Investigation</div>
+              <div class="cdp-item-text">Analysis revealed the failure was behavioral, not technical — driver adoption friction and operational complexity caused zone bypass.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Solution</div>
+              <div class="cdp-item-text">Explored OSRM-based routing using actual road network data to redefine zone boundaries, reducing the gap between planned and actual routes.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Impact</div>
+              <div class="cdp-item-text">Documented systemic gap between technical design and operational reality; proposed data-driven zone improvement approach.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-detail-panel" id="case-panel-2">
+          <div class="cdp-title">Production Debugging &amp; Integration Issues</div>
+          <div class="cdp-grid">
+            <div class="cdp-item">
+              <div class="cdp-item-label">Problem</div>
+              <div class="cdp-item-text">Recurring intermittent production failures involving third-party integrations and webhook delivery — hard to reproduce.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Investigation</div>
+              <div class="cdp-item-text">Systematic log analysis to identify timing patterns, payload mismatches, and failure states. Distinguished platform failures from external service issues.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Solution</div>
+              <div class="cdp-item-text">Collaborated with engineers to narrow root causes; documented findings for incident response and improved monitoring coverage.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Impact</div>
+              <div class="cdp-item-text">Improved platform reliability and reduced mean resolution time for similar future incidents.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-detail-panel" id="case-panel-3">
+          <div class="cdp-title">LLM Knowledge Retrieval Experiment</div>
+          <div class="cdp-grid">
+            <div class="cdp-item">
+              <div class="cdp-item-label">Problem</div>
+              <div class="cdp-item-text">Teams spending excessive time searching internal documentation — existing keyword search was inaccurate and slow.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Investigation</div>
+              <div class="cdp-item-text">Designed a RAG pipeline: Notion docs → chunking → embeddings → vector database → semantic retrieval → LLM response generation.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Solution</div>
+              <div class="cdp-item-text">Built a working prototype that answers internal queries using semantic similarity, without requiring exact keyword matching.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Impact</div>
+              <div class="cdp-item-text">Demonstrated feasibility of AI-powered knowledge retrieval; improved answer accuracy over traditional search methods.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-detail-panel" id="case-panel-4">
+          <div class="cdp-title">Address Book Integration Optimization</div>
+          <div class="cdp-grid">
+            <div class="cdp-item">
+              <div class="cdp-item-label">Problem</div>
+              <div class="cdp-item-text">Drivers were manually entering addresses, causing incorrect locations and delivery failures that impacted last-mile success rates.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Solution</div>
+              <div class="cdp-item-text">Tested and validated Address Book integration with WhatsApp and Ola data sources to auto-populate customer addresses, eliminating manual entry errors.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Impact</div>
+              <div class="cdp-item-text">Improved address accuracy and increased delivery success rate to approximately 85% in last-mile logistics.</div>
+            </div>
+            <div class="cdp-item">
+              <div class="cdp-item-label">Contribution</div>
+              <div class="cdp-item-text">Provided product feedback after understanding the system end-to-end and identifying edge cases in address validation logic.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Projects &amp; Experiments</div>
+    <h2 class="sec-title reveal">Things I've Built</h2>
+    <div class="projects-list">
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-name">OSRM Routing Exploration</div>
+          <div class="project-desc">Experiment using OpenStreetMap and OSRM routing engine to optimize logistics zone planning. Moving from straight-line distance to actual road-network routing significantly improves zone fairness and last-mile delivery efficiency.</div>
+        </div>
+        <div class="project-flow">
+          <div class="flow-node">OpenStreetMap</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">OSRM</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Zone Optimization</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-name">Product Documentation &amp; Feature Design</div>
+          <div class="project-desc">Drafted PRDs and user stories for Multi-Hub Warehousing, Return Address workflows, and Mid-Mile tracking by gathering requirements from customers and internal teams. Collaborated with Product and Engineering to translate operational needs into structured specifications.</div>
+        </div>
+        <div class="project-flow">
+          <div class="flow-node">Requirements</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">PRD / User Stories</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Engineering Handoff</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-name">API Test Automation</div>
+          <div class="project-desc">Automated API validation using Postman collections to verify logistics workflows and integration points. Identified P1 issues and improved regression coverage for critical APIs across the platform.</div>
+        </div>
+        <div class="project-flow">
+          <div class="flow-node">Postman</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">API Validation</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Regression Coverage</div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div>
+          <div class="project-name">PVK Power Solutions Website</div>
+          <div class="project-desc">Designed and developed a website for a solar and power solutions company. Implemented product catalog browsing, services overview, and contact workflow using modern frontend tools and Git-based deployment.</div>
+        </div>
+        <div class="project-flow">
+          <div class="flow-node">Product Idea</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">UI Design</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Frontend Build</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">Git Deployment</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Career Journey</div>
+    <h2 class="sec-title reveal">The Path Here</h2>
+    <div style="max-width:600px">
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2021</div>
+          <div class="tl-role">QA Intern</div>
+          <div class="tl-desc">Started with system validation and functional testing. Developed foundational understanding of how logistics platforms are structured — order creation, routing, and delivery workflows from the ground up.</div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2022</div>
+          <div class="tl-role">QA Engineer</div>
+          <div class="tl-desc">Took ownership of end-to-end feature testing across driver apps, order management, and warehouse operations. Started working directly with production issues — learning to debug integrations, trace API failures, and investigate real system behavior.</div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2023 — Present</div>
+          <div class="tl-role">QA I — Technical Product Lean</div>
+          <div class="tl-desc">Transitioned into a product-adjacent role. Participating in requirement discussions, drafting PRDs, contributing product improvement suggestions, investigating production failures at the system level, and exploring tools like OSRM and LLM prototyping to improve platform quality.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Technical Skills</div>
+    <h2 class="sec-title reveal">Tools &amp; Technologies</h2>
+    <div class="skills-cloud reveal">
+      <span class="sk-chip">Python</span>
+      <span class="sk-chip green">SQL</span>
+      <span class="sk-chip">API Debugging</span>
+      <span class="sk-chip amber">Docker</span>
+      <span class="sk-chip green">LLM Concepts</span>
+      <span class="sk-chip">Vector Databases</span>
+      <span class="sk-chip amber">Workflow Analysis</span>
+      <span class="sk-chip">OSRM / OpenStreetMap</span>
+      <span class="sk-chip green">System Debugging</span>
+      <span class="sk-chip">Log Analysis</span>
+      <span class="sk-chip amber">Webhook Debugging</span>
+      <span class="sk-chip">Product Thinking</span>
+      <span class="sk-chip green">Regression Testing</span>
+      <span class="sk-chip">Edge Case Analysis</span>
+      <span class="sk-chip amber">RAG Pipelines</span>
+      <span class="sk-chip">Embeddings</span>
+      <span class="sk-chip green">Postman</span>
+      <span class="sk-chip">PRD Writing</span>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="sec-eyebrow reveal">Contact</div>
+    <h2 class="sec-title reveal">Let's Connect</h2>
+    <div class="contact-wrap">
+      <div>
+        <p class="contact-intro">I'm looking for roles in technical product management, platform reliability, or systems engineering — anywhere that values deep domain knowledge and systems-level thinking. If that's your team, I'd love to hear from you.</p>
+        <div class="contact-items">
+          <a href="mailto:jaihindrajas2001@gmail.com" class="contact-item">
+            <div class="ci-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+            </div>
+            <div>
+              <div class="ci-label">Email</div>
+              <div class="ci-val">jaihindrajas2001@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/jaihindrajas-5b63551a1/" target="_blank" class="contact-item">
+            <div class="ci-icon">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div>
+              <div class="ci-label">LinkedIn</div>
+              <div class="ci-val">linkedin.com/in/jaihindrajas-5b63551a1</div>
+            </div>
+          </a>
+          <div class="contact-item" style="cursor:default">
+            <div class="ci-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="ci-label">Location</div>
+              <div class="ci-val">Bengaluru, India</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="avail-panel reveal-right">
+        <div class="avail-status"><span class="avail-dot"></span>Available for Opportunities</div>
+        <div class="avail-title">Open to the Right Role</div>
+        <div class="avail-desc">Looking for positions where I can apply deep system knowledge, logistics domain expertise, and product thinking to solve complex real-world problems at scale.</div>
+        <div class="interest-tags">
+          <span class="itag itag-sky">Technical PM</span>
+          <span class="itag itag-green">Platform Reliability</span>
+          <span class="itag itag-amber">Systems Engineering</span>
+          <span class="itag itag-sky">Logistics Tech</span>
+          <span class="itag itag-green">Product Operations</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="sec-divider"/>
+
+<footer>
+  <span>© 2024 Jaihind Raja — Bengaluru, India</span>
+  <span style="color:var(--sky)">Systems · Product · Debugging</span>
+</footer>
+
+<script>
+// ────────────────────────────────────────────
+// PARTICLES
+// ────────────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouseX = -1000, mouseY = -1000;
+  const N = 80;
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  class Particle {
+    constructor(){ this.reset(); }
+    reset(){
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.r = Math.random() * 1.5 + 0.5;
+      this.alpha = Math.random() * 0.5 + 0.1;
+    }
+    update(){
+      this.x += this.vx;
+      this.y += this.vy;
+      if(this.x < 0 || this.x > W) this.vx *= -1;
+      if(this.y < 0 || this.y > H) this.vy *= -1;
+      const dx = this.x - mouseX;
+      const dy = this.y - mouseY;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist < 100){
+        const force = (100 - dist) / 100 * 0.5;
+        this.vx += (dx / dist) * force;
+        this.vy += (dy / dist) * force;
+        const maxV = 2;
+        this.vx = Math.max(-maxV, Math.min(maxV, this.vx));
+        this.vy = Math.max(-maxV, Math.min(maxV, this.vy));
+      }
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(56,189,248,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for(let i = 0; i < N; i++) particles.push(new Particle());
+
+  function drawConnections(){
+    for(let i = 0; i < N; i++){
+      for(let j = i+1; j < N; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(56,189,248,${0.08 * (1 - dist/120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function loop(){
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawConnections();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ────────────────────────────────────────────
+// TERMINAL TYPING ANIMATION
+// ────────────────────────────────────────────
+(function(){
+  const lines = [
+    {type:'cmd', text:'./initialize_profile.sh'},
+    {type:'out', text:'initializing...', color:'var(--text2)'},
+    {type:'kv', key:'name', val:'Jaihind Raja'},
+    {type:'kv', key:'role', val:'Technical Product / Systems Engineer'},
+    {type:'kv', key:'focus', val:'Logistics Systems & Workflow Optimization'},
+    {type:'kv', key:'status', val:'open_to_work ✓', valColor:'var(--green)'},
+  ];
+
+  const container = document.getElementById('terminal-lines');
+  let lineIdx = 0;
+  let charIdx = 0;
+  let currentEl = null;
+
+  function buildLine(line){
+    const div = document.createElement('div');
+    div.className = 't-line';
+    if(line.type === 'cmd'){
+      div.innerHTML = `<span class="t-prompt">$ </span><span class="t-cmd"></span>`;
+    } else if(line.type === 'out'){
+      div.style.color = line.color || 'var(--text2)';
+      div.innerHTML = `<span></span>`;
+    } else if(line.type === 'kv'){
+      div.innerHTML = `<span class="t-out-key">${line.key}</span><span style="color:var(--text3)">: </span><span style="color:${line.valColor || 'var(--green)'}"></span>`;
+    }
+    container.appendChild(div);
+    return div;
+  }
+
+  function typeNext(){
+    if(lineIdx >= lines.length){
+      const cursor = document.createElement('span');
+      cursor.className = 't-cursor';
+      container.lastChild.appendChild(cursor);
+      return;
+    }
+    const line = lines[lineIdx];
+    if(!currentEl){
+      currentEl = buildLine(line);
+      charIdx = 0;
+    }
+    const spans = currentEl.querySelectorAll('span');
+    const targetSpan = spans[spans.length - 1];
+    const text = line.type === 'kv' ? line.val : line.text;
+    if(charIdx < text.length){
+      targetSpan.textContent += text[charIdx];
+      charIdx++;
+      setTimeout(typeNext, line.type === 'cmd' ? 55 : 28);
+    } else {
+      lineIdx++;
+      currentEl = null;
+      setTimeout(typeNext, 200);
+    }
+  }
+
+  setTimeout(typeNext, 600);
+})();
+
+// ────────────────────────────────────────────
+// GSAP SCROLL ANIMATIONS
+// ────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.utils.toArray('.reveal').forEach(el => {
+  gsap.fromTo(el,
+    {opacity:0, y:30},
+    {opacity:1, y:0, duration:0.7, ease:'power2.out',
+      scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}
+    }
+  );
+});
+gsap.utils.toArray('.reveal-left').forEach(el => {
+  gsap.fromTo(el,
+    {opacity:0, x:-30},
+    {opacity:1, x:0, duration:0.7, ease:'power2.out',
+      scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}
+    }
+  );
+});
+gsap.utils.toArray('.reveal-right').forEach(el => {
+  gsap.fromTo(el,
+    {opacity:0, x:30},
+    {opacity:1, x:0, duration:0.7, ease:'power2.out',
+      scrollTrigger:{trigger:el, start:'top 88%', toggleActions:'play none none none'}
+    }
+  );
+});
+
+// Hero entrance
+gsap.fromTo('#hero-name', {opacity:0, y:20}, {opacity:1, y:0, duration:1, delay:0.2, ease:'power3.out'});
+gsap.fromTo('.hero-subtitle', {opacity:0}, {opacity:1, duration:0.8, delay:0.5});
+gsap.fromTo('.hero-desc', {opacity:0, y:10}, {opacity:1, y:0, duration:0.8, delay:0.7});
+gsap.fromTo('.hero-btns', {opacity:0, y:10}, {opacity:1, y:0, duration:0.8, delay:0.9});
+gsap.fromTo('#profile-card', {opacity:0, x:40, rotateY:-10}, {opacity:1, x:0, rotateY:0, duration:1, delay:0.4, ease:'power3.out'});
+
+// Animated counters
+function animateCounters(){
+  document.querySelectorAll('.count-up').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    gsap.fromTo({val:0}, {val:target}, {
+      duration:2, ease:'power1.out',
+      scrollTrigger:{trigger:el, start:'top 85%', once:true},
+      onUpdate:function(){
+        el.textContent = Math.round(this.targets()[0].val);
+      }
+    });
+  });
+}
+animateCounters();
+
+// Timeline activation on scroll
+gsap.utils.toArray('.tl-item').forEach((item, i) => {
+  ScrollTrigger.create({
+    trigger:item,
+    start:'top 75%',
+    onEnter:() => item.classList.add('active')
+  });
+});
+
+// ────────────────────────────────────────────
+// INTERACTIVE DIAGRAM
+// ────────────────────────────────────────────
+const stepInfoMap = {
+  0: {title:'Customer Order', desc:'Customer order enters the logistics platform and begins the first-mile to last-mile fulfillment workflow.'},
+  1: {title:'Order Management System', desc:'The OMS processes the order — validates order, calculates SLA, assigns priority, and updates to OMS via webhooks. This is where most integration failures originate.'},
+  2: {title:'Driver Allocation', desc:'Zone logic and driver availability are evaluated. This is where zone routing features operate — and where behavioral mismatches between planned and actual allocation surface.'},
+  3: {title:'Driver App', desc:'The driver receives order details. Bulk assignment events at this layer caused the crash issue — payload size exceeded app memory limits under concurrent load.'},
+  4: {title:'Hub Processing', desc:'Orders are sorted and staged at the hub. Operational errors here propagate downstream and are often misdiagnosed as driver or app failures.'},
+  5: {title:'Delivery', desc:'The final mile. Driver and customer both need accurate data at this point — any upstream failure cascades to delivery failures and poor experience.'},
+};
+
+document.querySelectorAll('.d-node').forEach(node => {
+  node.addEventListener('mouseenter', () => {
+    const step = parseInt(node.dataset.step);
+    document.querySelectorAll('.d-node').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.d-arrow').forEach(a => a.classList.remove('active'));
+    node.classList.add('active');
+    for(let i = 0; i < step; i++){
+      document.querySelectorAll(`.d-arrow[data-step="${i}"]`)[0]?.classList.add('active');
+    }
+    const info = stepInfoMap[step];
+    if(info) document.getElementById('step-info').innerHTML = `<strong>${info.title}</strong>${info.desc}`;
+  });
+});
+
+// ── CASE STUDIES — SPLIT PANEL ──
+function selectCase(navItem, index) {
+  // deactivate all nav items
+  document.querySelectorAll('.case-nav-item').forEach(el => el.classList.remove('active'));
+  // hide all panels
+  document.querySelectorAll('.case-detail-panel').forEach(el => {
+    el.classList.remove('active');
+    el.style.opacity = '0';
+  });
+  // activate selected
+  navItem.classList.add('active');
+  const panel = document.getElementById('case-panel-' + index);
+  if (panel) {
+    panel.classList.add('active');
+    gsap.fromTo(panel,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+    );
+  }
+}
+// set initial panel opacity so first panel is visible
+document.addEventListener('DOMContentLoaded', () => {
+  const first = document.getElementById('case-panel-0');
+  if (first) first.style.opacity = '1';
+});
+
+// ────────────────────────────────────────────
+// GSAP SMOOTH SCROLL
+// ────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
+});
+</script>
+</body>
+</html>
